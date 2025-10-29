@@ -12,6 +12,7 @@ public class Hangman {
         Scanner scanner = new Scanner(System.in);
 
         int count = 0;
+        int correctGuesses = 0;
         boolean correctGuess = false;
 
         do {
@@ -19,20 +20,28 @@ public class Hangman {
             char guessLetter = scanner.next().charAt(0);
             if(word.contains(String.valueOf(guessLetter))) {
                 correctLetters.put(guessLetter, true);
+                correctGuesses++;
             }
             else {
                 System.out.println("The letter " + guessLetter + " is not in the word!");
                 count += 1;
                 System.out.println("You have gussed " + count + " time(s) and you have " + (correctLetters.size() + 2 - count) + " guesses left!");
             }
+            if(correctGuesses==correctLetters.size()){
+                System.out.println("You've guessed all of the letters correctly");
+                correctGuess = true;
+                break;
+            }
+
             System.out.println("Do you know what the word is? Enter Yes or No");
             String ans = scanner.next();
+
             if (ans.equals("Yes")) {
                 System.out.println("Enter what you think the word is: ");
                 ans = scanner.next();
                 if (ans.equals(word)) {
                     correctGuess = true;
-                    if (correctGuess == true) {
+                    if (correctGuess) {
                         break;
                     }
                 }
@@ -44,8 +53,8 @@ public class Hangman {
             else {
                 continue;
             }
-        } while(count <= (correctLetters.size() + 2) || correctGuess == false);
-        if (correctGuess == true) {
+        } while(count <= (correctLetters.size() + 2) || !correctGuess);
+        if (correctGuess) {
             System.out.println("You win! The correct word was " + word);
         }
         else {
