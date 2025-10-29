@@ -1,20 +1,30 @@
-import java.util.Scanner;
-import java.util.Arrays;
+import java.util.*;
 
 public class Hangman {
     public static void main(String[] args) {
-        //word
-        String word = "Dinosaur";
-
-        // empty array with all false values
-        boolean[] wordBoolean = new boolean[word.length()];
-        System.out.println(Arrays.toString(wordBoolean));
+        HashMap<Character, Boolean> correctLetters = new HashMap<Character, Boolean>();
+        String word = "apple";
+        for(char c: word.toCharArray()) {
+            correctLetters.put(c, true);
+        }
+        System.out.println(correctLetters);
 
         Scanner scanner = new Scanner(System.in);
 
-        // We just need to ask the user for the letter and if they guess correctly update the
-        // array value to true.  We can print an array of underscores and replace correctly guessed
-        // letters with X.
+        int count = 0;
+        boolean correctGuess = false;
+
+        do {
+            System.out.print("Enter your guess: ");
+            char guessLetter = scanner.next().charAt(0);
+            if(word.contains(String.valueOf(guessLetter))) {
+                correctLetters.put(guessLetter, true);
+            }
+            else {
+               count += 1;
+            }
+
+        } while(count == (correctLetters.size() + 2) || correctGuess == true);
 
         scanner.close();
     }
