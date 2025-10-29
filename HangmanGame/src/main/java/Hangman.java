@@ -21,10 +21,36 @@ public class Hangman {
                 correctLetters.put(guessLetter, true);
             }
             else {
-               count += 1;
+                System.out.println("The letter " + guessLetter + " is not in the word!");
+                count += 1;
+                System.out.println("You have gussed " + count + " time(s) and you have " + (correctLetters.size() + 2 - count) + " guesses left!");
             }
-
-        } while(count == (correctLetters.size() + 2) || correctGuess == true);
+            System.out.println("Do you know what the word is? Enter Yes or No");
+            String ans = scanner.next();
+            if (ans.equals("Yes")) {
+                System.out.println("Enter what you think the word is: ");
+                ans = scanner.next();
+                if (ans.equals(word)) {
+                    correctGuess = true;
+                    if (correctGuess == true) {
+                        break;
+                    }
+                }
+                else {
+                    System.out.println("Wrong Guess! Try again");
+                    continue;
+                }
+            }
+            else {
+                continue;
+            }
+        } while(count <= (correctLetters.size() + 2) || correctGuess == false);
+        if (correctGuess == true) {
+            System.out.println("You win! The correct word was " + word);
+        }
+        else {
+            System.out.println("You lose! The correct word was " + word);
+        }
 
         scanner.close();
     }
