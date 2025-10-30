@@ -25,24 +25,29 @@ public class Hangman {
             System.out.print("\nEnter your guess for the next letter: ");
 
             guessedLetter = scanner.next();
-            numberOfGuesses--;
+
             boolean enteredElseIf = false;
             for (int i = 0; i < letters.length; i++) {
                 if (letters[i].equals(guessedLetter) && !dashes[i].equals(letters[i])) {
                     dashes[i] = letters[i];
+                    correctLetter = true;
                 }
                 else if (letters[i].equals(guessedLetter) && !enteredElseIf){
                     enteredElseIf = true;
                     System.out.println("You've already guessed that letter.");
                     System.out.println("You have "+ numberOfGuesses +" guesses left.");
+                    correctLetter = true;
                 }
-                correctLetter = true;
+                else{
+                    correctLetter = false;
+                }
             }
             if (correctLetter) {
                 System.out.println("That was a correct letter!");
                 System.out.println("This is your current status: " + Arrays.toString(dashes));
             }
             else {
+                numberOfGuesses--;
                 System.out.println("That was incorrect!");
                 System.out.println("This is your current status: " + Arrays.toString(dashes));
             }
@@ -54,7 +59,7 @@ public class Hangman {
                 break;
             }
 
-        } while (numberOfGuesses >= 0);
+        } while (numberOfGuesses > 0);
 
         if(!Arrays.equals(letters, dashes)) {
             System.out.println("You lost!");
