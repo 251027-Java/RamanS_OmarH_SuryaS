@@ -7,10 +7,10 @@ public class Hangman {
         String word = "omar";
         String[] letters = word.split("");
         String[] dashes = new String[letters.length];
+        String guessedLetter = "";
+        boolean correctGuess = false;
 
-        for (int i = 0; i < dashes.length; i++) {
-            dashes[i] = "_";
-        }
+        Arrays.fill(dashes, "_");
         boolean hangmanCompleted = false;
         int count = 0;
         boolean correctLetter = false;
@@ -19,9 +19,9 @@ public class Hangman {
         System.out.println("You have a total of " + guessNum + " guesses left.");
         do {
             System.out.print("Enter your guess for the next letter: ");
-            word = scanner.next();
+            guessedLetter = scanner.next();
             for (int i = 0; i < letters.length; i++) {
-                if (letters[i].equals(word)) {
+                if (letters[i].equals(guessedLetter)) {
                     dashes[i] = letters[i];
                     correctLetter = true;
                 }
@@ -41,14 +41,29 @@ public class Hangman {
                 count += 1;
             }
             correctLetter = false;
+
+            if(guessNum<=3){
+                System.out.println("Do you know what the word is? (Y / N)");
+                String input = scanner.next();
+                if(input.equals("Y")){
+                    System.out.println("Enter the word.");
+                    input = scanner.next();
+                    if(input.equals(word)){
+                        System.out.println("You guessed the word correctly");
+                        correctGuess=true;
+                        guessNum=0;
+                    }
+                }
+            }
+
             if (Arrays.equals(letters, dashes)) {
                 System.out.println("You won!");
                 System.out.println("The correct word was: " + Arrays.toString(letters));
                 System.out.println("This was your guess: " + Arrays.toString(dashes));
                 break;
             }
-        } while (guessNum != 0);
-        if (guessNum == 0) {
+        } while (guessNum != 0 || !correctGuess);
+        if (guessNum == 0 && !correctGuess) {
             System.out.println("You lost!");
             System.out.println("The correct word was: " + Arrays.toString(letters));
             System.out.println("This was your guess: " + Arrays.toString(dashes));
